@@ -28,7 +28,7 @@ You will be writing an OCaml reimplementation of some parts of GitHub's own
   Like most of Mirage, the library is structured around a monad, which is defined
   in the aptly named Monad module. =Commands.show_issue= is a good place to start,
   and you will see that =Github.Issue.get= is the main call you'll want. Having
-  got a promise back, you want to use =GitHub.Monad.run= in order to get something
+  got a promise back, you want to use =Github.Monad.run= in order to get something
   you can pass to =Lwt_main.run= in order to get an actual value.
 
   =Commands.list_issues= and =Commands.list_prs= are similar to each other, but

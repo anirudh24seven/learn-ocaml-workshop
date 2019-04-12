@@ -6,7 +6,7 @@ let show_issue ~user ~repo num : unit =
     Github.Issue.get ~user ~repo ~num ()
     >|= Github.Response.value |> Github.Monad.run |> Lwt_main.run
   in
-  Printf.printf "%d %s\n\n%s\n" issue.issue_number issue.issue_title issue.issue_body 
+  Printf.printf "%d %s\n\n%s\n" issue.issue_number issue.issue_title issue.issue_body
 
 let read f n s =
   let rec loop n s =
@@ -19,21 +19,31 @@ let read f n s =
     | _ ->
       return ()
   in
-  loop n s
-  |> Github.Monad.run
-  |> Lwt_main.run
+  loop n s |> Github.Monad.run
+
+let print_issue {Github_t.issue_number; issue_title; _} =
+  Printf.printf "%d %s\n" issue_number issue_title
 
 let list_issues ~user ~repo () : unit =
-  let print_issue {Github_t.issue_number; issue_title; _} =
-    Printf.printf "%d %s\n" issue_number issue_title
+  let program =
+    let open Lwt.Infix in
+    Github_cookie_jar.init ()
+    >>= fun jar ->
+      Github_cookie_jar.get jar ~name:"reasonconf"
+    >>= function
+    | None -> Lwt.fail (Failure "invalid token!")
+    | Some auth ->
+      let token = Github.Token.of_auth auth in
+      read print_issue 10 @@ Github.Issue.for_repo ~token ~user ~repo ()
   in
-  read print_issue 10 @@ Github.Issue.for_repo ~user ~repo ()
+  Lwt_main.run program
 
 let list_prs ~user ~repo () : unit =
   let print_pr {Github_t.pull_number; pull_title; _} =
     Printf.printf "%d %s\n" pull_number pull_title
   in
   read print_pr 10 @@ Github.Pull.for_repo ~user ~repo ()
+  |> Lwt_main.run
 
 let checkout_pr ~user ~repo ?branch num : unit =
   let main =

@@ -1,4 +1,4 @@
-#+TITLE: ReasonConf 2019 OCaml Workshop
+#+TITLE: IndiaFOSS 2023 OCaml Workshop
 
 This repo contains exercises and build instructions to help you get started
 developing in OCaml.

@@ -12,6 +12,7 @@ type color =
   | Red
   | Yellow
   | Green
+[@@deriving compare]
 
 (* You'll get an error about Unbound value compare_color. This is because we
    used the [compare] ppx for [stoplight] below, which has a [color] as one of
@@ -20,8 +21,8 @@ type color =
    Fix it by adding this: [@@deriving compare]
 *)
 
-type stoplight =
-  { location : string (* stoplights don't usually move *)
+type stoplight = { 
+  location : string (* stoplights don't usually move *)
   ; mutable color : color  (* but they often change color *)
   }
 [@@deriving compare]
@@ -39,7 +40,11 @@ let set_color stoplight color = stoplight.color <- color
 (* Since we know that stoplights always go from Green to Yellow, Yellow to
    Red, and Red to Green, we can just write a function to advance the color
    of the light without taking an input color. *)
-let advance_color stoplight = failwith "For you to implement"
+let advance_color stoplight = 
+  match stoplight.color with
+  | Green -> stoplight.color <- Yellow
+  | Yellow -> stoplight.color <- Red
+  | Red -> stoplight.color <- Green
 
 module For_testing = struct
   let test_ex_red : stoplight = { location = ""; color = Red }

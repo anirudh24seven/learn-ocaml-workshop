@@ -1,6 +1,6 @@
 open! Base
 
-(* When working with two lists it's conveninet to have a way to concatenate them together.
+(* When working with two lists it's convenient to have a way to concatenate them together.
 
    The append infix operator @ concatenates two lists:
 
@@ -19,7 +19,17 @@ let () =
 
    val range : int -> int -> int list
 *)
-let range from to_ = failwith "For you to implement"
+let rec range from to_ =
+(*  if from = to_ then *)
+(*     [] *)
+(*  else *)
+(*    [from] @ (range (from+1) to_) *)
+  
+  match from with 
+  | x when from = to_ -> [] 
+  | _ -> [from] @ (range (from+1) to_) 
+;;
+  
 
 (* Here's a different way of getting the [equal] function for a type [t]:
 

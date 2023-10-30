@@ -23,7 +23,10 @@ let () =
 *)
 type coordinate = int * int
 
-let add coord1 coord2 = failwith "For you to implement"
+let add (coord1 : coordinate) (coord2 : coordinate) = 
+  match coord1 with
+  | (x1, y1) -> match coord2 with
+    | (x2, y2) -> (x1 + x2, y1 + y2)
 
 (* Now consider a name type containing strings representing first and last names *)
 type name = string * string
@@ -54,10 +57,14 @@ let nested_char_pair : char pair pair = ('a', 'b'), ('c', 'd')
 
 (* Write functions to extract the first and second elements from a pair. *)
 (* val first : 'a pair -> 'a *)
-let first pair = failwith "For you to implement"
+let first pair = 
+  match pair with
+  | (x, _) -> x
 
 (* val second : 'a pair -> 'a *)
-let second pair = failwith "For you to implement"
+let second pair = 
+  match pair with
+    | (_, y) -> y
 
 (* Notice the cool [%compare.equal: int*int] here! *)
 let%test "Testing add..." = [%compare.equal: int * int] (4, 7) (add (5, 3) (-1, 4))

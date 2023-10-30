@@ -30,7 +30,9 @@ let%test _ =
    and returns an int option. It should return None if [divisor = 0], and
    otherwise returns [Some x] where [x] is the division result *)
 let safe_divide ~dividend ~divisor =
-  failwith "For you to implement"
+  match divisor with
+  | 0 -> None
+  | x -> Some (dividend / divisor)
 
 let%test "Testing safe_divide..." =
   match (safe_divide ~dividend:3 ~divisor:2) with
@@ -46,8 +48,11 @@ let%test "Testing safe_divide..." =
    [string option]s and returns a [string option] that is [Some x]
    where x is the concatenation of the two strings, if they exist, and
    [None] if either of the strings is [None]. *)
-let option_concatenate string1 string2 = 
-  failwith "For you to implement"
+let option_concatenate (string1 : string option) (string2 : string option) = 
+  match string1, string2 with
+  | None, _ -> None
+  | _, None -> None
+  | (Some string1), (Some string2) -> Some (string1 ^ string2)
 
 let%test "Testing option_concatenate..." =
   match option_concatenate (Some "hello") (Some "world") with

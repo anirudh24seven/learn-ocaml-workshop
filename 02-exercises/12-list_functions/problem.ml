@@ -8,7 +8,7 @@ open! Base
 
 (* List.fold
 
-   val fold : 'a list ‑> init:'b ‑> f:('b ‑> 'a ‑> 'b) ‑> 'b
+   val fold : (('a list) ‑> (init:'b) ‑> f:(('b ‑> 'a) ‑> 'b)) ‑> 'b
 
    Maybe this looks familiar?  This is the same as the every
    function we wrote in the last problem.  
@@ -16,12 +16,12 @@ open! Base
    Let's rewrite simpler_sum and simpler_product using List.fold
 *) 
 
-let simpler_sum xs = failwith "For you to implement"
-let simpler_product xs = failwith "For you to implement"
+let simpler_sum xs = List.fold xs ~init:0 ~f:( + ) 
+let simpler_product xs = List.fold xs ~init:1 ~f:( * )
 
 (* List.map
 
-   val map : 'a list ‑> f:('a ‑> 'b) ‑> 'b list
+   val map : ('a list ‑> f:('a ‑> 'b) ) -> 'b list
 
    [map] allows us to transforms lists from one type to lists
    of another type by applying some function (f) to every element
@@ -31,11 +31,11 @@ let simpler_product xs = failwith "For you to implement"
    it into a float list
 *)
 
-let float_of_int xs = failwith "For you to implement"
+let float_of_int xs = List.map xs ~f:(Float.of_int)
 
 (* List.init
 
-   val init : int -> f:(int -> 'a) -> 'a t
+   val init : (int -> f:(int -> 'a)) -> 'a list
 
    [init] allows you to construct new lists.  Given a number
    representing the number of elements to generate and a function to
@@ -43,8 +43,7 @@ let float_of_int xs = failwith "For you to implement"
 
    Let's rewrite the range function we wrote in problem 9 to use [init]
 *)
-
-let range from to_ = failwith "For you to implement"
+let range from to_ = List.init (to_ - from) ~f:(fun x -> from + x)
 
 (* List.range
 
@@ -70,7 +69,7 @@ let range from to_ = failwith "For you to implement"
    Lets use [iter] to print a list of ints
 *)
 
-let print_int_list xs = failwith "For you to implement"
+let print_int_list xs = List.iter xs ~f:(Stdlib.print_int)
 
 (* There are many more useful List functions but a couple that are worth noting are
 

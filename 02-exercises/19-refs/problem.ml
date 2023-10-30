@@ -18,8 +18,21 @@ let () =
 
    Your function should iterate over the list and maintain refs of the
    minimum and maximum values seen so far.  *)
+   
 let min_and_max lst =
-  failwith "For you to implement"
+  match lst with
+  | [] -> raise (Failure "Empty list")
+  | hd :: tl ->
+    let min_ref = ref hd in
+    let max_ref = ref hd in
+
+    List.iter ~f:(fun x ->
+      if x < !min_ref then min_ref := x;
+      if x > !max_ref then max_ref := x;
+    ) tl;
+
+    (!min_ref, !max_ref)
+
 
 let%test "Testing min_and_max..." =
   [%compare.equal: int*int] (min_and_max [5;9;2;4;3]) (2,9) 

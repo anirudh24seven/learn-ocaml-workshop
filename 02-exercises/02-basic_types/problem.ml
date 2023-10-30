@@ -62,10 +62,10 @@ let float_four = 4.
 
    In Ocaml there's no explicit return statement: functions just return the
    value of the last statement in that function. *)
-let int_average x y = failwith "For you to implement"
+let int_average x y = (x + y) / 2;;
 
 (* val float_average : float -> float -> float *)
-let float_average x y = failwith "For you to implement"
+let float_average x y = (x +. y) /. 2.;;
 
 (* There will be more about functions later, but note that in OCaml, there are
    no parentheses when applying a function! So the following expression computes
@@ -87,7 +87,7 @@ let last_name : string = "Flintstone"
 
 let full_name = first_name ^ " " ^ last_name
 
-let a_boolean_false : bool = false
+let a_boolean_false : bool = true
 
 (* You can use
    && for logical and
